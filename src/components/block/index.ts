@@ -147,6 +147,11 @@ export default class Block extends EventsDispatcher<BlockEvents> {
   public readonly config: ToolConfig;
 
   /**
+   * Block should be fixed
+   */
+  public readonly fixed: boolean;
+
+  /**
    * Cached inputs
    *
    * @type {HTMLElement[]}
@@ -305,6 +310,8 @@ export default class Block extends EventsDispatcher<BlockEvents> {
     this.config = tool.settings.config || {};
     this.api = api;
     this.blockAPI = new BlockAPI(this);
+
+    this.fixed = data.hasOwnProperty('fixed') ? data.fixed : false;
 
     this.mutationObserver = new MutationObserver(this.didMutated);
 
@@ -634,6 +641,13 @@ export default class Block extends EventsDispatcher<BlockEvents> {
       .then((finishedExtraction) => {
         /** measure promise execution */
         measuringEnd = window.performance.now();
+
+        if (this.fixed) {
+          finishedExtraction = {
+            ...finishedExtraction,
+            fixed: this.fixed,
+          };
+        }
 
         return {
           id: this.id,

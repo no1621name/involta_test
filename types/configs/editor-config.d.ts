@@ -1,11 +1,12 @@
-import {ToolConstructable, ToolSettings} from '../tools';
-import {API, BlockAPI, LogLevels, OutputData} from '../index';
-import {SanitizerConfig} from './sanitizer-config';
-import {I18nConfig} from './i18n-config';
+import { ToolConstructable, ToolSettings } from '../tools';
+import { API, BlockAPI, LogLevels, OutputData } from '../index';
+import { SanitizerConfig } from './sanitizer-config';
+import { I18nConfig } from './i18n-config';
 
 export interface EditorConfig {
   /**
    * Element where Editor will be append
+   *
    * @deprecated property will be removed in the next major release, use holder instead
    */
   holderId?: string | HTMLElement;
@@ -41,6 +42,7 @@ export interface EditorConfig {
 
   /**
    * Define default sanitizer configuration
+   *
    * @see {@link sanitizer}
    */
   sanitizer?: SanitizerConfig;
@@ -87,11 +89,12 @@ export interface EditorConfig {
    */
   onReady?(): void;
 
-  /**
-   * Fires when something changed in DOM
-   * @param {API} api - editor.js api
-   * @param event - custom event describing mutation
-   */
+  //
+  // Fires when something changed in DOM
+  //
+  // @param {API} api - editor.js api
+  // @param event - custom event describing mutation
+  //
   onChange?(api: API, event: CustomEvent): void;
 
   /**

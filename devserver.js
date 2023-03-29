@@ -27,7 +27,7 @@ server.listen(port, nonRoutableAddress, () => {
 
 ${wrapInColor('Editor.js 💖', consoleColors.hiColor)} devserver is running ᕕ(⌐■_■)ᕗ ✨
 ---------------------------------------------
-${wrapInColor('http://' + host + ':' + port + '/example/example-dev.html', consoleColors.fgGreen)}
+${wrapInColor('http://' + host + ':' + port + '/example/example-fixed.html', consoleColors.fgGreen)}
 ---------------------------------------------
 Page can be opened from any device connected to the same local network.
 `);
@@ -81,29 +81,30 @@ function serveStatic(paths) {
  * @returns {string}
  */
 function getHost() {
-  const nets = networkInterfaces();
-  const results = {};
-
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-      if (net.family === 'IPv4' && !net.internal) {
-        if (!results[name]) {
-          results[name] = [];
-        }
-        results[name].push(net.address);
-      }
-    }
-  }
-
-  /**
-   * Offline case
-   */
-  if (Object.keys(results).length === 0) {
-    return localhost;
-  }
-
-  return results['en0'][0];
+  // const nets = networkInterfaces();
+  // const results = {};
+  //
+  // for (const name of Object.keys(nets)) {
+  //   for (const net of nets[name]) {
+  //     // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+  //     if (net.family === 'IPv4' && !net.internal) {
+  //       if (!results[name]) {
+  //         results[name] = [];
+  //       }
+  //       results[name].push(net.address);
+  //     }
+  //   }
+  // }
+  //
+  // /**
+  //  * Offline case
+  //  */
+  // if (Object.keys(results).length === 0) {
+  //   return localhost;
+  // }
+  //
+  // return results['eth0'][0];
+  return nonRoutableAddress;
 }
 
 /**

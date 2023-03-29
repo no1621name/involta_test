@@ -153,6 +153,13 @@ export default class Blocks {
      *
      * @see https://stackoverflow.com/a/44932690/1238150
      */
+
+    if (this.blocks[toIndex].fixed || this.blocks[fromIndex].fixed) {
+      _.log('This block is fixed! You cannot move it', 'error', '', '');
+
+      return;
+    }
+
     const block = this.blocks.splice(fromIndex, 1)[0];
 
     // manipulate DOM
@@ -230,9 +237,16 @@ export default class Blocks {
       index = this.length - 1;
     }
 
-    this.blocks[index].holder.remove();
+    const block = this.blocks[index];
 
-    this.blocks[index].call(BlockToolAPI.REMOVED);
+    if (block.fixed) {
+      _.log('This block is fixed! You cannot remove it', 'error', '', '');
+
+      return;
+    }
+
+    block.holder.remove();
+    block.call(BlockToolAPI.REMOVED);
 
     this.blocks.splice(index, 1);
   }
@@ -257,8 +271,16 @@ export default class Blocks {
    */
   public insertAfter(targetBlock: Block, newBlock: Block): void {
     const index = this.blocks.indexOf(targetBlock);
+    const nextIndex = index + 1;
+    const nextBlock = this.blocks[nextIndex];
 
-    this.insert(index + 1, newBlock);
+    if (nextBlock && newBlock.fixed) {
+      _.log('Next block is fixed! You cannot insert another before it', 'error', '', '');
+
+      this.insert(index, newBlock);
+    }
+
+    this.insert(nextIndex, newBlock);
   }
 
   /**

@@ -225,6 +225,13 @@ export default class BlockEvents extends Module {
     }
 
     /**
+     * Don't handle Enter keydowns when Tool sets fixed to true.
+     */
+    if (currentBlock.fixed) {
+      return;
+    }
+
+    /**
      * Opened Toolbars uses Flipper with own Enter handling
      * Allow split block when no one button in Flipper is focused
      */
