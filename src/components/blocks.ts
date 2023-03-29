@@ -126,12 +126,19 @@ export default class Blocks {
    * @deprecated — use 'move' instead
    */
   public swap(first: number, second: number): void {
+    const firstBlock = this.blocks[first];
     const secondBlock = this.blocks[second];
+
+    if (firstBlock.fixed || secondBlock.fixed) {
+      _.log('Block is fixed! You cannot swap it', 'error', '', '');
+
+      return;
+    }
 
     /**
      * Change in DOM
      */
-    $.swap(this.blocks[first].holder, secondBlock.holder);
+    $.swap(firstBlock.holder, secondBlock.holder);
 
     /**
      * Change in array
